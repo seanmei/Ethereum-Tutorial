@@ -6,9 +6,11 @@ import "./DaiToken.sol";
 
 
 contract TokenFarm {
+    address public owner; 
     string public name = "Dapp Token Farm";
     DappToken public dappToken; // state varriables 
     DaiToken public daiToken;
+    
 
     address[] public stakers; 
     mapping(address => uint ) public stakingBalance;
@@ -20,12 +22,15 @@ contract TokenFarm {
     constructor(DappToken _dappToken, DaiToken _daiToken) public { //special function run once, whenever the smart contract is deployed 
         dappToken  = _dappToken;
         daiToken = _daiToken; 
+        owner = msg.sender; //person who deploys the contract 
 
     }
 
     //1. Stakes Tokens (Deposite)
     function stakeTokens(uint _amount) public {
-         
+         //require amount  to be greater than 0 
+         require(_amount > 0,  'amount cannot be 0' );
+
          //Transfer Mock Dai tokens to this contract for staking 
          daiToken.transferFrom(msg.sender, address(this), _amount);
 
@@ -42,11 +47,20 @@ contract TokenFarm {
         isStaking[msg.sender] = true; 
 
     }
+    //2. Issuing Tokens 
 
-    //2. Unstaking Tokens (Widthdraw)
+    function issueTokens() public {
+        require(msg.sender == owner, 'Call must be the owner'); //only allow the owner to call this contract otherwise anyone can call it any time 
+        for (uint i=0; i<stakers.length; i++){ //interate through all the stakers 
+            address recipient = stakers[i]; //get addressf of stakers 
+            uint balance = stakingBalance[recipient]; //see how much DAi they staked (we are going to reward 1 Dapp token for each Dai )
+            if(balance > 0 ) {
+                //Transfer Dapp tokens to this contract as reward 
+                dappToken.transfer(recipient, balance); 
+            }
+        }
+    }
 
-
-    //3. Issuing Tokens 
-
+     //3. Unstaking Tokens (Widthdraw)
 
 }
