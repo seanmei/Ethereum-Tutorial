@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import Web3 from 'web3';
 import farmer from '../farmer.png'
 
 class Navbar extends Component {
