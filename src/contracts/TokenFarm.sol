@@ -63,4 +63,22 @@ contract TokenFarm {
 
      //3. Unstaking Tokens (Widthdraw)
 
+     function unstakeTokens() public {
+        //get balance of how much they staked 
+        uint balance = stakingBalance[msg.sender];
+
+        //require amount  to be greater than 0 
+        require(balance > 0,  'amount cannot be 0');
+
+        //Transfer mock DAI to the sender 
+        daiToken.transfer( msg.sender, balance);
+
+        //update staking balance 
+        stakingBalance[msg.sender] = stakingBalance[msg.sender] -  balance;
+
+        //person is no longer staking 
+        isStaking[msg.sender] = false; 
+
+     }
+
 }
