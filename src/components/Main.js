@@ -29,6 +29,7 @@ class Main extends Component {
                     amount = this.input.value.toString() //input refers to the ref 
                     amount = window.web3.utils.toWei(amount, "Ether") //convert to WEi
                     this.props.stakeTokens(amount) //stake the tokens 
+                    
                 }}>
                     <div>
                         <label className="float-left"><b>Stake Tokens</b></label>
