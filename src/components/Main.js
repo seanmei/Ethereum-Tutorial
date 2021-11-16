@@ -27,7 +27,7 @@ class Main extends Component {
                     event.preventDefault()
                     let amount
                     amount = this.input.value.toString() //input refers to the ref 
-                    amount = this.web3.utils.toWei(amount, "Ether") //convert to WEi
+                    amount = window.web3.utils.toWei(amount, "Ether") //convert to WEi
                     this.props.stakeTokens(amount) //stake the tokens 
                 }}>
                     <div>
@@ -52,6 +52,15 @@ class Main extends Component {
                     </div>
                     <button type="submit" className='btn btn-primary btn-block btn-lg'>Stake!</button>
                 </form>
+                <button 
+                    type = "submit"
+                    className='btn btn-link btn-block btn-sm'
+                    onClick={(event) => {
+                        event.preventDefault()
+                        this.props.unstakeTokens()
+                    }}>
+                        UN-STAKE NOW
+                </button>
             </div>
         </div>
       </div>
